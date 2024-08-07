@@ -4,7 +4,9 @@
 
 
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
             @if (accountService.currentUser()) {
+                
                 <li class="nav-item">
                     <a routerLink="/members" routerLinkActive="active" class="nav-link">Matches</a>
                 </li>
@@ -21,6 +23,8 @@
         </ul>
 
         @if (accountService.currentUser()) {
+            <img class="me-2" src="{{accountService.currentUser()?.photoUrl || './assets/user.png'}}" alt="user main image">
+
         <div dropdown class="dropdown">
             <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">
                 Welcome {{accountService.currentUser()?.username | titlecase}}
