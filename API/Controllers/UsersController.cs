@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Security.Principal;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -14,13 +15,14 @@ namespace API.Controllers;
 public class UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService) : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        userParams.CurrentUsername = User.GetUsername();    
+        userParams.CurrentUsername = User.GetUsername();
         var users = await userRepository.GetMembersAsync(userParams);
         Response.AddPaginationHeader(users);
         return Ok(users);
     }
+
 
     [HttpGet("{username}")]  // /api/users/2
     public async Task<ActionResult<MemberDto>> GetUser(string username)
@@ -64,11 +66,11 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
             Url = result.SecureUrl.AbsoluteUri,
             PublicId = result.PublicId
         };
-        if(user.Photos.Count==0)
+        if (user.Photos.Count == 0)
         {
-            photo.IsMain=true; 
+            photo.IsMain = true;
         }
-        
+
         user.Photos.Add(photo);
         if (await userRepository.SaveAllAsync()) return CreatedAtAction(nameof(GetUser), new { username = user.UserName }, mapper.Map<PhotoDto>(photo));
 
