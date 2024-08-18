@@ -3,7 +3,7 @@ using API.Interfaces;
 
 namespace API.Data;
 
-public class UnitOfWork(DataContext context, IUserRepository userRepository,
+public class UnitOfWork(DataContext context, IUserRepository userRepository,IPhotoRepository photoRepository,
     ILikesRepository likesRepository, IMessageRepository messageRepository) : IUnitOfWork
 {
     public IUserRepository UserRepository => userRepository;
@@ -11,6 +11,8 @@ public class UnitOfWork(DataContext context, IUserRepository userRepository,
     public IMessageRepository MessageRepository => messageRepository;
 
     public ILikesRepository LikesRepository => likesRepository;
+
+    public IPhotoRepository PhotoRepository=> photoRepository;
 
     public async Task<bool> Complete()
     {

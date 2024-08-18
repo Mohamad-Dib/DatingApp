@@ -9,7 +9,7 @@ namespace API.Data;
 
 public class Seed
 {
-    public static async Task SeedUsers(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager)
+    public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
     {
         if (await userManager.Users.AnyAsync()) return;
 
@@ -33,26 +33,27 @@ public class Seed
 
         foreach (var user in users)
         {
-            user.UserName = user.UserName!.ToLower();    
-            await userManager.CreateAsync(user,"Pa$$w0rd");    
-       
+            user.Photos.First().IsApproved = true;
+            user.UserName = user.UserName!.ToLower();
+            await userManager.CreateAsync(user, "Pa$$w0rd");
             await userManager.AddToRoleAsync(user, "Member");
         }
 
-        var admin = new AppUser{
+        var admin = new AppUser
+        {
             UserName = "admin",
             KnownAs = "Admin",
             Gender = "",
-            City= "",
-            Country= ""
+            City = "",
+            Country = ""
         };
 
-        await userManager.CreateAsync(admin,"Pa$$w0rd");
+        await userManager.CreateAsync(admin, "Pa$$w0rd");
 
-        await userManager.AddToRolesAsync(admin, ["Admin","Moderator"]);
+        await userManager.AddToRolesAsync(admin, ["Admin", "Moderator"]);
 
 
 
-        
+
     }
 }

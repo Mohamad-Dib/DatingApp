@@ -20,7 +20,7 @@ export class MemberMessagesComponent implements AfterViewChecked {
 
   sendMessage() {
     this.messageService.sendMessage(this.username(), this.messageContent).then(()=>{this.messageForm?.reset()});
-    this.scrollToBottom();
+    this.scrollToBottom()
   }
 
   ngAfterViewChecked(): void {
