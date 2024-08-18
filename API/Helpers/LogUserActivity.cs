@@ -1,5 +1,6 @@
 using System;
 using API.Extensions;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace API.Helpers;
@@ -12,12 +13,12 @@ public class LogUserActivity : IAsyncActionFilter
 
         if(context.HttpContext.User.Identity?.IsAuthenticated!= true) return ;
         var userId = resultContext.HttpContext.User.GetUserId();
-        var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+        var unitOfWork = resultContext.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
 
-        var user = await repo.GetUserByIdAsync(userId); 
+        var user = await unitOfWork.UserRepository.GetUserByIdAsync(userId); 
         if(user == null) return ;   
         user.LastActive= DateTime.UtcNow;   
-        await repo.SaveAllAsync(); 
+        await unitOfWork.Complete(); 
     
     }
 }

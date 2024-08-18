@@ -1,14 +1,13 @@
-using System;
-using API.Data;
+
 using API.DTOs;
+using API.Entities;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Entities;
+namespace API.Data;
 
 public class LikesRepository(DataContext context, IMapper mapper) : ILikesRepository
 {
@@ -73,8 +72,5 @@ public class LikesRepository(DataContext context, IMapper mapper) : ILikesReposi
 
     }
 
-    public async Task<bool> SaveChanges()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
+ 
 }
